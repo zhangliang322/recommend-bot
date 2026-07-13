@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wechat-product-reco-bot"
+version = "0.1.0"
+description = "MVP for private-domain WeChat product recommendations with hot-score ranking and one-image cards."
+requires-python = ">=3.11"
+dependencies = [
+  "apscheduler>=3.11,<4",
+  "fastapi>=0.115",
+  "pillow>=10",
+  "pydantic>=2",
+  "pyyaml>=6",
+  "uvicorn>=0.30",
+]
+
+[project.scripts]
+reco-demo = "product_reco_bot.cli:main"
+reco-admin = "product_reco_bot.management.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+product_reco_bot = ["management/static/*"]
+
+[project.optional-dependencies]
+dev = [
+  "httpx2>=2,<3",
+  "pytest>=8",
+  "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

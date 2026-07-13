@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>精品推荐运营台</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark"><i data-lucide="sparkles"></i></div>
+          <div><strong>精品推荐</strong><span>运营工作台</span></div>
+        </div>
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="products">
+            <i data-lucide="package-search"></i><span>今日候选</span>
+          </button>
+          <button class="nav-item" data-view="sources">
+            <i data-lucide="database-zap"></i><span>数据源</span>
+          </button>
+          <button class="nav-item" data-view="feedback">
+            <i data-lucide="message-square-more"></i><span>运营反馈</span>
+          </button>
+          <button class="nav-item" data-view="deliveries">
+            <i data-lucide="send"></i><span>推送记录</span>
+          </button>
+        </nav>
+        <div class="sidebar-status">
+          <span class="status-dot"></span>
+          <div><strong>本地服务正常</strong><span>自动推送默认关闭</span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p id="page-eyebrow">2026 年 7 月 14 日</p>
+            <h1 id="page-title">今日候选</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button" id="refresh-button" title="刷新数据" aria-label="刷新数据">
+              <i data-lucide="refresh-cw"></i>
+            </button>
+            <div class="operator"><span>K</span><div><strong>运营管理员</strong><small>本地模式</small></div></div>
+          </div>
+        </header>
+
+        <section class="view active" id="view-products">
+          <div class="stats-band" id="product-stats">
+            <div class="stat"><span>候选商品</span><strong id="stat-total">--</strong></div>
+            <div class="stat"><span>高热商品</span><strong id="stat-hot">--</strong></div>
+            <div class="stat"><span>已批准</span><strong id="stat-approved">--</strong></div>
+            <div class="stat warning"><span>待审核</span><strong id="stat-pending">--</strong></div>
+          </div>
+
+          <div class="toolbar">
+            <div class="segmented" role="group" aria-label="类目筛选">
+              <button class="active" data-category="">全部</button>
+              <button data-category="饰品">饰品</button>
+              <button data-category="玩具">玩具</button>
+            </div>
+            <label class="search-box">
+              <i data-lucide="search"></i>
+              <input id="product-search" type="search" placeholder="搜索商品名称或编号" />
+            </label>
+          </div>
+
+          <div class="section-heading">
+            <div><h2>推荐池</h2><p>按综合火热指数排序</p></div>
+            <span class="sync-note" id="sync-note">正在读取数据</span>
+          </div>
+          <div class="product-list" id="product-list" aria-live="polite"></div>
+        </section>
+
+        <section class="view" id="view-sources">
+          <div class="section-heading"><div><h2>数据源</h2><p>查看配置状态与采集能力</p></div></div>
+          <div class="source-list" id="source-list"></div>
+        </section>
+
+        <section class="view" id="view-feedback">
+          <div class="stats-band feedback-stats">
+            <div class="stat positive"><span>评价为好</span><strong id="feedback-good">0</strong></div>
+            <div class="stat"><span>评价一般</span><strong id="feedback-normal">0</strong></div>
+            <div class="stat negative"><span>评价较差</span><strong id="feedback-bad">0</strong></div>
+          </div>
+          <div class="section-heading"><div><h2>反馈记录</h2><p>用于后续评分调优</p></div></div>
+          <div class="data-table" id="feedback-list"></div>
+        </section>
+
+        <section class="view" id="view-deliveries">
+          <div class="section-heading"><div><h2>推送记录</h2><p>每个商品最近一次正式发送时间</p></div></div>
+          <div class="data-table" id="delivery-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+  </body>
+</html>

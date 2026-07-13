@@ -1,0 +1,36 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Build output
+build/
+dist/
+*.whl
+
+# Local workspace and generated runtime data
+.agents/
+.codex/
+work/
+integrations/astrbot_plugin_product_reco/data/
+data/cmd_config.json
+data/t2i_templates/
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini

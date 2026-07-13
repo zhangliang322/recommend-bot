@@ -1,0 +1,47 @@
+sources:
+  external_jsonl:
+    display_name: 外部信号文件
+    enabled: true
+    adapter: jsonl_signal
+    capabilities:
+      - social_trends
+      - ecommerce_growth
+      - fashion_trends
+    credential_env: {}
+  pdd_duoduo:
+    display_name: 多多进宝
+    enabled: false
+    adapter: pdd_affiliate
+    capabilities:
+      - product_search
+      - product_detail
+      - promotion_link
+      - order_query
+    credential_env:
+      client_id: PDD_CLIENT_ID
+      client_secret: PDD_CLIENT_SECRET
+      pid: PDD_PID
+  tiktok:
+    display_name: TikTok
+    enabled: false
+    adapter: tiktok_api_bridge
+    capabilities:
+      - social_trends
+    credential_env:
+      ms_token: TIKTOK_MS_TOKEN
+  instagram:
+    display_name: Instagram
+    enabled: false
+    adapter: instaloader_bridge
+    capabilities:
+      - social_trends
+    credential_env:
+      session_file: INSTAGRAM_SESSION_FILE
+  xiaohongshu:
+    display_name: 小红书
+    enabled: false
+    adapter: mediacrawler_bridge
+    capabilities:
+      - social_trends
+    credential_env:
+      cookie_file: XHS_COOKIE_FILE

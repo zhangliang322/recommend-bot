@@ -1,0 +1,15 @@
+dry_run: true
+data_csv: data/imports/sample_products.csv
+output_dir: work/generated_cards
+recommendation_limit: 5
+auto_push_enabled: false
+daily_push_time: "10:00"
+timezone: Asia/Shanghai
+signal_jsonl_paths:
+  - data/imports/sample_external_signals.jsonl
+social_window_days: 3
+ecommerce_window_days: 7
+fashion_window_days: 30
+allowed_categories:
+  - 饰品
+  - 玩具

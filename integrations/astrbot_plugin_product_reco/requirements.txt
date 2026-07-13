@@ -1,0 +1,4 @@
+apscheduler>=3.11,<4
+pillow>=10
+pydantic>=2
+pyyaml>=6

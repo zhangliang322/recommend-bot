@@ -1,0 +1,13 @@
+hot_score:
+  social: 0.35
+  sales_growth: 0.30
+  fashion_trend: 0.20
+  supply: 0.10
+  novelty: 0.05
+
+thresholds:
+  burst: 90
+  high: 80
+  potential: 70
+  watch: 60
+

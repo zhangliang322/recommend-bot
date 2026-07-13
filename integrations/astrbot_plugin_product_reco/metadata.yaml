@@ -1,0 +1,6 @@
+name: astrbot_plugin_product_reco
+display_name: 每日精品产品推荐
+desc: 根据热点与销量信号生成产品推荐卡片，并向私域群发送图片与采购链接。
+version: v0.1.0
+author: product-reco-team
+repo: local-mvp
