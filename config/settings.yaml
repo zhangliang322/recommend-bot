@@ -1,4 +1,8 @@
 dry_run: true
+product_source: csv
+product_keywords:
+  - 饰品
+  - 玩具
 data_csv: data/imports/sample_products.csv
 output_dir: work/generated_cards
 recommendation_limit: 5

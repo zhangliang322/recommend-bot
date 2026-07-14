@@ -68,6 +68,7 @@
               <i data-lucide="search"></i>
               <input id="product-search" type="search" placeholder="搜索商品名称或编号" />
             </label>
+            <button class="action-button" id="batch-approve-button">批准当前筛选</button>
           </div>
 
           <div class="section-heading">
@@ -80,6 +81,17 @@
         <section class="view" id="view-sources">
           <div class="section-heading"><div><h2>数据源</h2><p>查看配置状态与采集能力</p></div></div>
           <div class="source-list" id="source-list"></div>
+          <div class="source-preview-panel">
+            <div class="section-heading"><div><h2>多多进宝商品预览</h2><p>启用前检查关键词搜索结果，不会自动批准或推送</p></div></div>
+            <div class="toolbar">
+              <label class="search-box">
+                <i data-lucide="search"></i>
+                <input id="pdd-keyword" type="search" value="饰品" maxlength="40" placeholder="输入商品关键词" />
+              </label>
+              <button class="action-button" id="pdd-preview-button">搜索预览</button>
+            </div>
+            <div class="product-list" id="pdd-preview-list"><div class="empty-state">配置凭证后可预览真实商品</div></div>
+          </div>
         </section>
 
         <section class="view" id="view-feedback">
@@ -100,5 +112,15 @@
     </div>
 
     <div class="toast" id="toast" role="status"></div>
+    <div class="drawer-backdrop" id="detail-backdrop" hidden></div>
+    <aside class="detail-drawer" id="detail-drawer" aria-label="商品详情" aria-hidden="true">
+      <div class="drawer-header"><div><small>商品详情</small><h2 id="detail-title">正在读取</h2></div><button class="icon-button" id="detail-close" aria-label="关闭"><i data-lucide="x"></i></button></div>
+      <div class="drawer-body">
+        <section><div class="section-heading"><div><h3>私域详情文案</h3></div><button class="text-button" data-copy-target="private-copy">复制</button></div><textarea id="private-copy" readonly></textarea></section>
+        <section><div class="section-heading"><div><h3>公域发布文案</h3></div><button class="text-button" data-copy-target="public-copy">复制</button></div><textarea id="public-copy" readonly></textarea></section>
+        <label class="note-field"><span>审核备注</span><textarea id="approval-note" maxlength="500" placeholder="选填，例如：适合亲子群，发布前复核库存"></textarea></label>
+        <button class="action-button" id="detail-approve">批准商品</button>
+      </div>
+    </aside>
   </body>
 </html>

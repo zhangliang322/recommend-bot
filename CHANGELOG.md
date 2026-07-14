@@ -4,4 +4,7 @@
 
 - Added runnable MVP skeleton.
 - Added CSV import, hot-score ranking, one-image card rendering, and dry-run push flow.
-
+- Added a credential-safe PDD client, live connectivity check, and operator UI test action.
+- Added PDD product normalization, promotion-link generation, preview, and source switching.
+- Added local source sync status, sanitized failure records, detail/copy previews, approval notes,
+  and batch approval.

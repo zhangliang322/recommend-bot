@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, Field
@@ -9,6 +9,8 @@ from pydantic import BaseModel, Field
 
 class AppConfig(BaseModel):
     dry_run: bool = True
+    product_source: Literal["csv", "pdd"] = "csv"
+    product_keywords: list[str] = Field(default_factory=lambda: ["饰品", "玩具"])
     data_csv: Path = Path("data/imports/sample_products.csv")
     output_dir: Path = Path("work/generated_cards")
     recommendation_limit: int = 5
