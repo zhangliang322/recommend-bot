@@ -39,3 +39,15 @@ def test_recently_recommended_product_gets_lower_novelty_score() -> None:
     result = service.score(product, now=now)
 
     assert result.novelty_score == 20.0
+
+
+def test_zero_growth_does_not_claim_sales_momentum() -> None:
+    products = CsvCollector(Path("data/imports/sample_products.csv")).collect_keywords(
+        keywords=["NeeDoh"], limit=1
+    )
+    service = RecommendationService(ScoringService(load_score_config()))
+
+    recommendation = service.build_recommendations(products, limit=1)[0]
+
+    assert all("销量增长" not in reason for reason in recommendation.reasons)
+    assert any("互动量待验证" in reason for reason in recommendation.reasons)
