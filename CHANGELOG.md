@@ -11,3 +11,4 @@
 - Kept the dashboard loadable with API-key protection enabled and added session-only browser auth.
 - Added bounded retry with short backoff for transient PDD transport failures.
 - Added bounded source synchronization history and an operator-facing log viewer.
+- Added a native Windows Tkinter operator application with a double-click launcher.
