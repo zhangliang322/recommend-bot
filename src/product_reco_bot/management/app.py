@@ -4,9 +4,9 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from pydantic import BaseModel
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
 from product_reco_bot.adapters.approval_store import ApprovalStore
@@ -54,18 +54,20 @@ def create_app(
     history = RecommendationHistoryStore(runtime_dir / "recommendation_history.jsonl")
     source_sync = SourceSyncStore(runtime_dir / "source_sync_status.json")
 
-    def require_api_key(x_api_key: str | None = Header(default=None)) -> None:
-        expected = os.getenv("PRODUCT_RECO_ADMIN_API_KEY")
-        if expected and x_api_key != expected:
-            raise HTTPException(status_code=401, detail="管理密钥无效")
-
     app = FastAPI(
         title="Product Recommendation Management API",
         version="0.1.0",
-        dependencies=[Depends(require_api_key)],
     )
     static_dir = Path(__file__).resolve().parent / "static"
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+    @app.middleware("http")
+    async def protect_management_api(request: Request, call_next):
+        expected = os.getenv("PRODUCT_RECO_ADMIN_API_KEY")
+        protected = request.url.path == "/health" or request.url.path.startswith("/api/")
+        if expected and protected and request.headers.get("X-API-Key") != expected:
+            return JSONResponse(status_code=401, content={"detail": "管理密钥无效"})
+        return await call_next(request)
 
     def ranked_recommendations(limit: int, category: str | None = None):
         config = load_app_config(root / "config" / "settings.yaml")

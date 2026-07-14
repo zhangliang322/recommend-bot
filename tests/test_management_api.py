@@ -45,6 +45,9 @@ def test_management_api_requires_configured_key(tmp_path: Path, monkeypatch) -> 
     client = TestClient(create_app(Path("."), tmp_path))
 
     assert client.get("/health").status_code == 401
+    assert client.get("/").status_code == 200
+    assert client.get("/static/app.js").status_code == 200
+    assert client.get("/api/sources").status_code == 401
     assert client.get("/health", headers={"X-API-Key": "secret-key"}).status_code == 200
 
 

@@ -28,10 +28,12 @@ class PddClient:
         credentials: PddCredentials,
         endpoint: str = DEFAULT_PDD_ENDPOINT,
         timeout: float = 10.0,
+        max_attempts: int = 2,
     ) -> None:
         self.credentials = credentials
         self.endpoint = endpoint
         self.timeout = timeout
+        self.max_attempts = max(1, max_attempts)
 
     def _sign(self, parameters: dict[str, Any]) -> str:
         content = "".join(f"{key}{parameters[key]}" for key in sorted(parameters))
@@ -53,11 +55,19 @@ class PddClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             method="POST",
         )
-        try:
-            with urlopen(request, timeout=self.timeout) as response:  # noqa: S310
-                result = json.loads(response.read().decode("utf-8"))
-        except Exception as exc:
-            raise PddConnectionError("无法连接多多进宝接口，请检查网络和接口地址") from exc
+        result: Any = None
+        last_error: Exception | None = None
+        for attempt in range(1, self.max_attempts + 1):
+            try:
+                with urlopen(request, timeout=self.timeout) as response:  # noqa: S310
+                    result = json.loads(response.read().decode("utf-8"))
+                break
+            except Exception as exc:
+                last_error = exc
+                if attempt < self.max_attempts:
+                    time.sleep(0.25 * attempt)
+        if last_error is not None and result is None:
+            raise PddConnectionError("无法连接多多进宝接口，请检查网络和接口地址") from last_error
         if not isinstance(result, dict):
             raise PddConnectionError("多多进宝返回了无法识别的数据")
         error = result.get("error_response")

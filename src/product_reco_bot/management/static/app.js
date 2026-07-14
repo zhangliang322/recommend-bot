@@ -43,10 +43,21 @@ function toast(message, error = false) {
 }
 
 async function request(path, options = {}) {
-  const response = await fetch(path, {
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+  const apiKey = window.sessionStorage.getItem("product-reco-api-key") || "";
+  let response = await fetch(path, {
     ...options,
+    headers: { "Content-Type": "application/json", ...(apiKey ? { "X-API-Key": apiKey } : {}), ...(options.headers || {}) },
   });
+  if (response.status === 401) {
+    const entered = window.prompt("请输入本地管理密钥：", "");
+    if (entered) {
+      window.sessionStorage.setItem("product-reco-api-key", entered);
+      response = await fetch(path, {
+        ...options,
+        headers: { "Content-Type": "application/json", "X-API-Key": entered, ...(options.headers || {}) },
+      });
+    }
+  }
   if (!response.ok) {
     let detail = "操作失败";
     try { detail = (await response.json()).detail || detail; } catch (_) { /* empty */ }

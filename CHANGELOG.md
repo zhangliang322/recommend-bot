@@ -8,3 +8,5 @@
 - Added PDD product normalization, promotion-link generation, preview, and source switching.
 - Added local source sync status, sanitized failure records, detail/copy previews, approval notes,
   and batch approval.
+- Kept the dashboard loadable with API-key protection enabled and added session-only browser auth.
+- Added bounded retry with short backoff for transient PDD transport failures.

@@ -11,6 +11,9 @@ reco-admin
 
 Set `PRODUCT_RECO_ADMIN_API_KEY` to require the `X-API-Key` request header. Keep the service on
 localhost until authentication, TLS, and deployment policy are configured.
+The dashboard and static assets remain loadable so the browser can request the key; `/health`
+and all `/api/` routes require it. The browser stores the entered key in `sessionStorage` only,
+so closing the tab clears it.
 
 Main routes:
 
