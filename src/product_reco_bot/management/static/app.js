@@ -152,6 +152,7 @@ function sourceRows(sources) {
       <div class="capabilities">${capabilities.map(escapeHtml).join(" · ")}</div>
       <span class="badge ${source.configured ? "ready" : ""}">${escapeHtml(statusText)}</span>
       <button class="action-button" data-test-source="${escapeHtml(source.name)}" ${source.configured ? "" : "disabled"}>测试连接</button>
+      <button class="text-button" data-source-history="${escapeHtml(source.name)}">日志</button>
       <button class="toggle ${source.enabled ? "on" : ""}" data-source="${escapeHtml(source.name)}" data-enabled="${source.enabled}" aria-label="${source.enabled ? "停用" : "启用"}${escapeHtml(source.display_name)}"><span></span></button>
     </div>`;
   }).join("");
@@ -161,6 +162,12 @@ async function loadSources() {
   state.sources = await request("/api/sources");
   document.getElementById("source-list").innerHTML = sourceRows(state.sources);
   iconRefresh();
+}
+
+async function loadSourceHistory(name) {
+  const items = await request(`/api/sources/${encodeURIComponent(name)}/sync-history?limit=20`);
+  document.getElementById("source-history").innerHTML = items.length ? items.map((item) => `
+    <div class="table-row"><strong>${item.success ? "同步成功" : "同步失败"}</strong><span>${escapeHtml(item.source)}</span><span>${escapeHtml(item.message || "无附加信息")}</span><span>${new Date(item.synced_at).toLocaleString("zh-CN")}</span></div>`).join("") : `<div class="empty-state">该数据源还没有同步记录</div>`;
 }
 
 async function previewPddGoods() {
@@ -247,6 +254,11 @@ document.addEventListener("click", async (event) => {
       await request(`/api/sources/${encodeURIComponent(source.dataset.source)}`, { method: "PATCH", body: JSON.stringify({ enabled: source.dataset.enabled !== "true" }) });
       await loadSources(); toast("数据源状态已更新");
     } catch (error) { source.disabled = false; toast(error.message, true); }
+  }
+  const history = event.target.closest("[data-source-history]");
+  if (history) {
+    loadSourceHistory(history.dataset.sourceHistory).catch((error) => toast(error.message, true));
+    return;
   }
   const sourceTest = event.target.closest("[data-test-source]");
   if (sourceTest) {

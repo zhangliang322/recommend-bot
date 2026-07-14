@@ -178,6 +178,16 @@ def create_app(
             raise HTTPException(status_code=404, detail="未知数据源") from exc
         return source_sync.list_latest().get(name)
 
+    @app.get("/api/sources/{name}/sync-history")
+    def source_sync_history(
+        name: str, limit: int = Query(default=20, ge=1, le=100)
+    ):
+        try:
+            sources.status(name)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="未知数据源") from exc
+        return source_sync.history(name, limit)
+
     @app.get("/api/recommendations")
     def list_recommendations(
         limit: int = Query(default=20, ge=1, le=100),

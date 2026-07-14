@@ -22,6 +22,7 @@ Main routes:
 - `POST /api/sources/{name}/test`: readiness or live connectivity check without returning secret values.
 - `GET /api/sources/pdd_duoduo/preview`: normalize a small keyword search result for review.
 - `GET /api/sources/{name}/sync-status`: latest local success or sanitized failure record.
+- `GET /api/sources/{name}/sync-history`: newest bounded local synchronization records.
 - `GET /api/recommendations`: ranked candidates with approval state.
 - `GET/POST/DELETE /api/approvals`: approval operations.
 - `POST /api/approvals/batch`: approve up to 100 known products with a shared note.
